@@ -1,26 +1,36 @@
 #!env python
 import argparse
 import glob
+from itertools import chain
 import os
 import sys
 import time
-from itertools import chain
 
-parser = argparse.ArgumentParser(description='OK if ')
-parser.add_argument('files', metavar='PathPattern', type=str, nargs='+',
-                    help="files pattern (give them between '' if you use *")
-parser.add_argument('-w', '--warning', dest='warning', type=int, default=86400,
-                    help='TODO')
-parser.add_argument('-c', '--critical', dest='critical', type=int, default=86400 * 2,
-                    help='TODO')
+
+parser = argparse.ArgumentParser(description="OK if ")
+parser.add_argument(
+    "files",
+    metavar="PathPattern",
+    type=str,
+    nargs="+",
+    help="files pattern (give them between '' if you use *",
+)
+parser.add_argument(
+    "-w", "--warning", dest="warning", type=int, default=86400, help="TODO"
+)
+parser.add_argument(
+    "-c", "--critical", dest="critical", type=int, default=86400 * 2, help="TODO"
+)
 current_time = time.time()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         args = parser.parse_args()
         globs = [glob.glob(pattern) for pattern in args.files]
-        path_age = [current_time - os.path.getmtime(path) for path in chain.from_iterable(globs)]
+        path_age = [
+            current_time - os.path.getmtime(path) for path in chain.from_iterable(globs)
+        ]
         if not path_age:
             print("No file found in specified path(s)")
             sys.exit(3)
