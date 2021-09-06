@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import datetime
 import glob
 from itertools import chain
 import os
@@ -28,15 +29,25 @@ if __name__ == "__main__":
     try:
         args = parser.parse_args()
         globs = [glob.glob(pattern) for pattern in args.files]
-        path_age = [
-            current_time - os.path.getmtime(path) for path in chain.from_iterable(globs)
+        age_path_tuple_list = [
+            (current_time - os.path.getmtime(path), path)
+            for path in chain.from_iterable(globs)
         ]
-        if not path_age:
+        min_path_age = min(age_path_tuple_list, key=lambda age: age[0])
+        # f-string not possible because of compatibility versions
+        print(
+            "Most recent file is "
+            + min_path_age[1]
+            + " modified "
+            + str(datetime.timedelta(seconds=int(min_path_age[0])))
+            + " ago."
+        )
+        if not age_path_tuple_list:
             print("No file found in specified path(s)")
             sys.exit(3)
-        if all(map(lambda age: age > args.critical, path_age)):
+        if min_path_age[0] > args.critical:
             sys.exit(2)
-        if all(map(lambda age: age > args.warning, path_age)):
+        if min_path_age[0] > args.warning:
             sys.exit(1)
         sys.exit(0)
     except Exception as e:
