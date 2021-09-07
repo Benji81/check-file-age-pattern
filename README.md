@@ -1,8 +1,10 @@
 # check-file-age-pattern
 
-A Python2 & Python3 script to detect if at least one file is recent enough.
+A Python2 & Python3 script to detect if files are recent enought. 2 modes are available
+- default: at least one file is recent enough.
+- all: all files must be recent enough
 
-This project is designed to be a Nagios-NRPE probe to check ifa periodic  backup has been done correctly.
+This project is designed to be a Nagios-NRPE probe to check if a periodic  backup has been done correctly.
 
 ## Installation
 
