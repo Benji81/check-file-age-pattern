@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "check-file-age-pattern"
-version = "1.1.0"
+version = "1.1.1"
 description = "Check if at least a file is recent enough given path"
 authors = ["Benjamin <benji81@gmail.com>"]
 license = "MIT"
