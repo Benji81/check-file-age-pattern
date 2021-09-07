@@ -20,6 +20,14 @@ pre-commit = "^2.15.0"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.semantic_release]
+version_variable = ["pyproject.toml:version"]
+branch = "main"
+upload_to_pypi = false
+upload_to_release = true
+build_command = "pip install poetry && poetry build"
+
+
 [tool.black]
 line-length = 88
 include = '\.pyi?$'
